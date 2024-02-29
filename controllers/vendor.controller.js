@@ -27,7 +27,7 @@ exports.create = (req, res) => {
 };
 
 exports.getAll = async (req, res) => {
-  const companyAccount = req.body;
+  const companyAccount = req.params;
   try {
     const vendors = await Vendor.find(companyAccount);
     res.status(200).json(vendors);
