@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 const app = express();
 const inventoryRouter = require("./routes/inventory");
 const vendorRouter = require("./routes/vendor");
-const userRouter = require('./routes/user')
+const userRouter = require("./routes/user");
 
 dotenv.config();
 
@@ -28,15 +28,23 @@ db.once("open", () => {
 });
 
 app.use(express.json());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: "GET,POST,PUT,DELETE",
+    allowedHeaders: "Content-Type,Authorization",
+    optionsSuccessStatus: 200,
+  })
+);
 app.use("/inventory", inventoryRouter);
 app.use("/vendor", vendorRouter);
-app.use("/user", userRouter)
+app.use("/user", userRouter);
 
 app.get("/", (req, res) => {
   res.json({
-    message: "I did it!"
-  })
-})
+    message: "I did it!",
+  });
+});
 app.listen(8080, () => {
   console.log("Listening on port 8080");
 });
