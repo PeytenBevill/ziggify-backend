@@ -35,7 +35,7 @@ exports.create = (req, res) => {
 };
 
 exports.getAll = async (req, res) => {
-  const companyAccount = req.body;
+  const companyAccount = req.params;
   try {
     const allInventory = await Inventory.find(companyAccount);
     res.status(200).json(allInventory);
