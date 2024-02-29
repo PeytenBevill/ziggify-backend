@@ -32,6 +32,11 @@ app.use("/inventory", inventoryRouter);
 app.use("/vendor", vendorRouter);
 app.use("/user", userRouter)
 
+app.get("/", (req, res) => {
+  res.json({
+    message: "I did it!"
+  })
+})
 app.listen(8080, () => {
   console.log("Listening on port 8080");
 });
