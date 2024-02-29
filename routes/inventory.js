@@ -4,7 +4,7 @@ const router = express.Router()
 
 router.get('/:companyAccount', inventoryController.getAll)
 router.post('/', inventoryController.create)
-router.put('/:_id', inventoryController.updateInventory)
+router.put('/', inventoryController.updateInventory)
 router.delete('/:_id', inventoryController.deleteItem)
 
 module.exports = router
