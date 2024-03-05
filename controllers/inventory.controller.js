@@ -1,3 +1,4 @@
+const { ObjectId } = require("mongodb");
 let Inventory = require("../models/inventory.model");
 
 exports.create = (req, res) => {
@@ -72,7 +73,7 @@ exports.getAll = async (req, res) => {
 
 exports.updateInventory = async (req, res) => {
   try {
-    const itemsArray  = req.body;
+    const itemsArray = req.body;
 
     if (!itemsArray || !Array.isArray(itemsArray)) {
       return res.status(400).send("Invalid itemsArray provided");
@@ -114,13 +115,18 @@ exports.updateInventory = async (req, res) => {
   }
 };
 
-
-
 exports.deleteItem = async (req, res) => {
+  let id = req.params._id
+  console.log(id)
   try {
-    await Inventory.findByIdAndDelete(req.params.id);
-    res.json(" Item deleted.");
+    const result = await Inventory.deleteOne({ _id: id });
+
+    if (result.deletedCount === 1) {
+      res.json({ message: "Item deleted successfully." });
+    } else {
+      res.status(404).json({ message: "Item not found." });
+    }
   } catch (err) {
-    res.status(400).json("Error: " + err);
+    res.status(500).json({ error: "Internal Server Error", details: err.message });
   }
 };
