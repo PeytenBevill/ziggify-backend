@@ -39,24 +39,31 @@ exports.getAll = async (req, res) => {
 
 exports.updateVendor = async (req, res) => {
   try {
-    await Vendor.findByIdAndUpdate(req.params.id, {
-      vName: req.body.vName,
-      contactInfo: req.body.contactInfo,
-      contactPerson: req.body.contactPerson,
-      taxId: req.body.taxId,
-      leadTime: req.body.leadTime,
-      moq: req.body.moq,
-    });
+    const vendorItem = req.body;
+    const id = req.params._id;
+    const updatedVendor = await Vendor.findByIdAndUpdate(
+      id,
+      {
+        vName: vendorItem.vName,
+        contactInfo: vendorItem.contactInfo,
+        contactPerson: vendorItem.contactPerson,
+        taxId: vendorItem.taxId,
+        leadTime: vendorItem.leadTime,
+        moq: vendorItem.moq,
+      },
+      { new: true }
+    );
+    console.log("Updated Vendor:", updatedVendor)
     res.send("Vendor updated");
   } catch (err) {
     console.error(err.message);
-    res.status(400).send("You messed up :/");
+    res.status(500).send("You messed up :/");
   }
 };
 
 exports.deleteItem = async (req, res) => {
-  let id = req.params._id
-  console.log(id)
+  let id = req.params._id;
+  console.log(id);
   try {
     const result = await Vendor.deleteOne({ _id: id });
 
@@ -66,6 +73,8 @@ exports.deleteItem = async (req, res) => {
       res.status(404).json({ message: "Vendor not found." });
     }
   } catch (err) {
-    res.status(500).json({ error: "Internal Server Error", details: err.message });
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", details: err.message });
   }
 };
