@@ -50,15 +50,22 @@ exports.updateVendor = async (req, res) => {
     res.send("Vendor updated");
   } catch (err) {
     console.error(err.message);
-    res.send(400).send("You messed up :/");
+    res.status(400).send("You messed up :/");
   }
 };
 
 exports.deleteItem = async (req, res) => {
+  let id = req.params._id
+  console.log(id)
   try {
-    await Vendor.findByIdAndDelete(req.params.id);
-    res.json("Vendor deleted.");
+    const result = await Vendor.deleteOne({ _id: id });
+
+    if (result.deletedCount === 1) {
+      res.json({ message: "Vendor deleted successfully." });
+    } else {
+      res.status(404).json({ message: "Vendor not found." });
+    }
   } catch (err) {
-    res.status(400).json("Error: " + err);
+    res.status(500).json({ error: "Internal Server Error", details: err.message });
   }
 };
