@@ -4,7 +4,8 @@ exports.create = (req, res) => {
   const userData = {
     userID: req.body.userID,
     password: req.body.password,
-    company: req.body.company,
+    companyAccount: req.body.companyAccount,
+    companyName: req.body.companyName
   };
 
   const user = new User(userData);
@@ -23,7 +24,7 @@ exports.create = (req, res) => {
 };
 
 exports.getUser = async (req, res) => {
-  const userID = req.body;
+  const userID = req.params
   try {
     const foundUser = await User.find(userID);
     res.status(200).json(foundUser);

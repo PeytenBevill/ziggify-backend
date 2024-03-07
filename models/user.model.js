@@ -10,7 +10,11 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  company: {
+  companyAccount: {
+    type: String,
+    required: true
+  },
+  companyName: {
     type: String,
     required: true
   }
