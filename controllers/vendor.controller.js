@@ -40,7 +40,7 @@ exports.getAll = async (req, res) => {
 exports.updateVendor = async (req, res) => {
   try {
     const vendorItem = req.body;
-    const id = vendorItem._id;
+    const id = req.params._id;
     const updatedVendor = await Vendor.findByIdAndUpdate(
       id,
       {
