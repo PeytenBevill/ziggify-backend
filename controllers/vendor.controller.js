@@ -39,21 +39,30 @@ exports.getAll = async (req, res) => {
 
 exports.updateVendor = async (req, res) => {
   try {
-    const vendorItem = req.body;
-    const id = req.params._id;
-    const updatedVendor = await Vendor.findByIdAndUpdate(
-      id,
-      {
-        vName: vendorItem.vName,
-        contactInfo: vendorItem.contactInfo,
-        contactPerson: vendorItem.contactPerson,
-        taxId: vendorItem.taxId,
-        leadTime: vendorItem.leadTime,
-        moq: vendorItem.moq,
-      },
-      { new: true }
-    );
-    console.log("Updated Vendor:", updatedVendor)
+    const vendorArray = req.body;
+    if (!vendorArray || !Array.isArray(vendorArray)) {
+      return res.status(400).send("Invalid vendorArray provided");
+    }
+
+    await Promise.all(
+      vendorArray.map(async (vendor) => {
+        const id = vendor._id
+        const updatedVendor = await Vendor.findByIdAndUpdate(
+          id,
+          {
+            vName: vendorItem.vName,
+            contactInfo: vendorItem.contactInfo,
+            contactPerson: vendorItem.contactPerson,
+            taxId: vendorItem.taxId,
+            leadTime: vendorItem.leadTime,
+            moq: vendorItem.moq,
+          },
+          { new: true }
+        );
+        console.log("Updated Vendor:", updatedVendor)
+
+      })
+    )
     res.send("Vendor updated");
   } catch (err) {
     console.error(err.message);
