@@ -34,3 +34,12 @@ exports.getUser = async (req, res) => {
   }
 };
 
+exports.getAll = async (req, res) => {
+  try {
+    const allUsers = await User.find()
+    res.status(200).json(allUsers)
+  } catch (err) {
+    console.error('There was an error:', err)
+    res.status(500).json({error: "Error fetching users"})
+  }
+}
