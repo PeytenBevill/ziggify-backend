@@ -31,7 +31,7 @@ db.once("open", () => {
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://localhost:8081"],
+    origin: ["http://localhost:5173", "http://localhost:8081", "https://ziggify.netlify.app"],
     methods: "GET,POST,PUT,DELETE",
     allowedHeaders: "Content-Type,Authorization",
     optionsSuccessStatus: 200,
